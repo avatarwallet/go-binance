@@ -39,21 +39,22 @@ func NewOrderCreateWsService(apiKey, secretKey string) (*OrderCreateWsService, e
 
 // OrderCreateWsRequest parameters for 'order.place' websocket API
 type OrderCreateWsRequest struct {
-	symbol           string
-	side             SideType
-	orderType        OrderType
-	timeInForce      *TimeInForceType
-	quantity         string
-	price            *string
-	newClientOrderID *string
-	stopPrice        *string
-	newOrderRespType NewOrderRespType
-	quoteOrderQty    *string
-	trailingDelta    *int64
-	icebergQty       *string
-	strategyId       *uint64
-	strategyType     *uint32
-	recvWindow       *uint16
+	symbol                  string
+	side                    SideType
+	orderType               OrderType
+	timeInForce             *TimeInForceType
+	quantity                string
+	price                   *string
+	newClientOrderID        *string
+	stopPrice               *string
+	newOrderRespType        NewOrderRespType
+	quoteOrderQty           *string
+	trailingDelta           *int64
+	icebergQty              *string
+	strategyId              *uint64
+	strategyType            *uint32
+	recvWindow              *uint16
+	selfTradePreventionMode *SelfTradePreventionMode
 }
 
 // NewOrderCreateWsRequest init OrderCreateWsRequest
@@ -107,6 +108,9 @@ func (s *OrderCreateWsRequest) buildParams() params {
 	}
 	if s.recvWindow != nil {
 		m["recvWindow"] = *s.recvWindow
+	}
+	if s.selfTradePreventionMode != nil {
+		m["selfTradePreventionMode"] = *s.selfTradePreventionMode
 	}
 	return m
 }
@@ -272,6 +276,12 @@ func (s *OrderCreateWsRequest) QuoteOrderQty(quoteOrderQty string) *OrderCreateW
 // NewOrderRespType set newOrderRespType
 func (s *OrderCreateWsRequest) NewOrderRespType(newOrderRespType NewOrderRespType) *OrderCreateWsRequest {
 	s.newOrderRespType = newOrderRespType
+	return s
+}
+
+// SelfTradePreventionMode set selfTradePreventionMode
+func (s *OrderCreateWsRequest) SelfTradePreventionMode(selfTradePreventionMode SelfTradePreventionMode) *OrderCreateWsRequest {
+	s.selfTradePreventionMode = &selfTradePreventionMode
 	return s
 }
 
